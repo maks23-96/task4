@@ -39,25 +39,24 @@ class Sql
     $this -> where = $where;
   }
 
-  public function select()
+  public function select($column)
   {
-    
-    
+    $this->colum = $column; 
+    return $this;
   }  
-  public function from()
+  public function from($table)
   {
-    
-    
+    $this->table = $table;
+    return $this;
   }  
-  public function where()
+  public function where($where)
   {
-    
-   
+    $this->where = $where;
+    return $this;
   }
   public function exec()
   {
-    
-    
+  echo $this->clolumn,' ',$this->table,' ',$this->where;  
   }
 }
 
