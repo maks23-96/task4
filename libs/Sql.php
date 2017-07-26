@@ -41,22 +41,22 @@ class Sql
 
   public function select($column)
   {
-    $this->colum = $column; 
+    $this->colum = 'SELECT ' . $column; 
     return $this;
   }  
   public function from($table)
   {
-    $this->table = $table;
+    $this->table = 'FROM ' . $table;
     return $this;
   }  
   public function where($where)
   {
-    $this->where = $where;
+    $this->where = 'WHERE '.$where;
     return $this;
   }
   public function exec()
   {
-  echo $this->clolumn,' ',$this->table,' ',$this->where;  
+  echo $this->colum.' '.$this->table.' '.$this->where;  
   }
 }
 
