@@ -8,14 +8,17 @@ class Sql
   public function setColumn($column)
   {
     $this->column = $column;
+    return $this;
   }
   public function setTable($table)
   {
     $this ->table = $table;
+    return $this;
   }
   public function setWhere($where)
   {
     $this ->where = $where;
+    return $this;
   }
   public function getColumn()
   {
@@ -39,22 +42,22 @@ class Sql
   public function select()
   {
     
-    return $this;
+    
   }  
   public function from()
   {
     
-    return $this;
+    
   }  
   public function where()
   {
     
-    return $this;
+   
   }
   public function exec()
   {
     
-    return $this;
+    
   }
 }
 
