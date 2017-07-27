@@ -4,44 +4,20 @@ class Sql
   protected $column;
   protected $table;
   protected $where;
+  protected $values;
+  //protected $stroka;
 
-  public function setColumn($column)
-  {
-    $this->column = $column;
-    return $this;
-  }
-  public function setTable($table)
-  {
-    $this ->table = $table;
-    return $this;
-  }
-  public function setWhere($where)
-  {
-    $this ->where = $where;
-    return $this;
-  }
-  public function getColumn()
-  {
-    return $this -> column;
-  }
-  public function getTable()
-  {
-    return $this -> table;
-  }
-  public function getWhere()
-  {
-    return $this -> where;
-  }
   public function __construct()
   {
-    $this -> column = $$column;
+    $this -> column = $column;
     $this -> table = $table;
     $this -> where = $where;
+	$this -> value = $value;
   }
 
   public function select($column)
   {
-    $this->colum = 'SELECT ' . $column; 
+    $this->column = 'SELECT ' . $column; 
     return $this;
   }  
   public function from($table)
@@ -54,10 +30,28 @@ class Sql
     $this->where = 'WHERE '.$where;
     return $this;
   }
-  public function exec()
+  public function insert($table)
   {
-  echo $this->colum.' '.$this->table.' '.$this->where;  
+	  $this->table = 'INSERT INTO'.$table;
+	  return $this;
   }
+  public function values($values)
+  {
+	  $this->values = $values;
+	  return $this;
+  }
+  /*public function prepare()
+  {
+	  $stroka=$this->column.' '.$this->table.' '.$this->where;
+	  return $this;
+  }*/
+  /*public function exec()
+  {
+	  
+  //echo $this->column.' '.$this->table.' '.$this->where; 
+  //mysql_query($stroka) ; 
+  }*/
+  
 }
 
 
@@ -66,8 +60,9 @@ class Mysql extends Sql
 {
    public function Mysqlconn()
      {
-    $link = mysql_connect('user1', 'user-1', 'tuser-1');
-    
+    //$link = mysql_connect('user1', 'user-1', 'tuser-1');
+    $link = mysql_connect('localhost', 'root', '');
+	mysql_select_db('bd1', $link);
     if (!$link)
     {
     die ('Error connection: '.mysql_error());
@@ -77,10 +72,36 @@ class Mysql extends Sql
     }
     mysql_close($link);
     }
+	
+	public function exec()
+  {
+	  //echo $this->column.' '.$this->table.' '.$this->where;
+  $stroka=$this->column.' '.$this->table.' '.$this->where; 
+  //mysql_query($stroka) ; 
+  }
 
 } 
 class Pgsql extends Sql
 {
-
+	public function Pgconn()
+     {
+    $link = pg_connect('dbname=user1 user=user-1 password=tuser-1');
+    
+    if (!$link)
+    {
+    die ('Error connection');
+    }  else
+    {
+     echo "Success";
+    }
+    pg_close($link);
+    }
+	
+	public function exec()
+  {
+	  
+  echo $this->column.' '.$this->table.' '.$this->where; 
+  //mysql_query($stroka) ; 
+  }
 }  
 ?>
