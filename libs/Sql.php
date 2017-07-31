@@ -5,7 +5,8 @@ class Sql
   protected $table;
   protected $where;
   protected $values;
-  //protected $stroka;
+  protected $select;
+  protected $delete;
 
   public function __construct()
   {
@@ -30,27 +31,20 @@ class Sql
     $this->where = 'WHERE '.$where;
     return $this;
   }
-  public function insert($table)
+   public function delete($column)
   {
-	  $this->table = 'INSERT INTO'.$table;
-	  return $this;
+    $this->column = 'DELETE ' . $column; 
+    return $this;
   }
-  public function values($values)
-  {
-	  $this->values = $values;
-	  return $this;
-  }
-  /*public function prepare()
-  {
-	  $stroka=$this->column.' '.$this->table.' '.$this->where;
-	  return $this;
-  }*/
-  /*public function exec()
+  
+  
+  
+  public function exec()
   {
 	  
   //echo $this->column.' '.$this->table.' '.$this->where; 
   //mysql_query($stroka) ; 
-  }*/
+  }
   
 }
 
@@ -58,45 +52,57 @@ class Sql
 
 class Mysql extends Sql
 {
-   public function Mysqlconn()
-     {
-    //$link = mysql_connect('user1', 'user-1', 'tuser-1');
-    $link = mysql_connect('localhost', 'root', '');
-	mysql_select_db('bd1', $link);
-    if (!$link)
-    {
-    die ('Error connection: '.mysql_error());
-    }  else
-    {
-     echo "Success";
-    }
-    mysql_close($link);
-    }
-	
+   public function __construct()
+  {
+    $link = mysql_connect('localhost','root','');
+   if (!link)
+  {
+    die('Error connection: '.mysql_error());
+  } else
+  {
+   echo "Success<br>";
+  }
+   mysql_select_db('user1', $link) or die(mysql_error());
+  }
 	public function exec()
   {
-	  //echo $this->column.' '.$this->table.' '.$this->where;
-  $stroka=$this->column.' '.$this->table.' '.$this->where; 
-  //mysql_query($stroka) ; 
+	  $delete=$this->column.' '.$this->table.' '.$this->where;
+	  $select=$this->column.' '.$this->table.' '.$this->where;
+	  echo $this->column.' '.$this->table.' '.$this->where;
+	   $query = sprintf($select);
+     $result = mysql_query($query);
+     if (!$result)
+     {
+      $message = 'neverniy zapros: ' .mysql_error() . "\n";
+      $message .= 'Zapros: ' . $query;
+      die($message);
+     }
+	 echo "<table border=1px>\n";
+while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
+    echo "\t<tr>\n";
+    foreach ($line as $col_value) {
+        echo "\t\t<td>$col_value</td>\n";
+    }
+    echo "\t</tr>\n";
+}
+echo "</table>\n";
   }
 
 } 
 class Pgsql extends Sql
 {
-	public function Pgconn()
-     {
-    $link = pg_connect('dbname=user1 user=user-1 password=tuser-1');
-    
-    if (!$link)
-    {
-    die ('Error connection');
-    }  else
-    {
-     echo "Success";
-    }
-    pg_close($link);
-    }
-	
+	/*public function __construct()
+  {
+    $link = pg_connect('localhost','user1','tuser1');
+   if (!link)
+  {
+    die('Error connection');
+  } else
+  {
+   echo "Success";
+  }
+   mysql_select_db('user1', $link) or die(mysql_error());
+  }*/
 	public function exec()
   {
 	  
